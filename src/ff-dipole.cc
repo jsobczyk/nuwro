@@ -422,6 +422,7 @@ pair<double, double> f12(double q2, int kind)
 /// BBBA07 Dipole
 double bbba07_FA(double q2, double ma)
 {
+    //cout<<"dupka"<<endl;
   double FA = dipole_FA(q2, ma);
   double AAx = GetA(q2, p_AAx);
   return FA* AAx;
@@ -598,6 +599,7 @@ void zexp_applyq0limit()
 
 double MINERvA_parametrization(const double qSq, const double bandWeight)
 {
+    //cout<<bandWeight<<endl;
     static const double tCut( 9*std::pow(139.6*MeV, 2) );
     static const double t0( -0.75*GeV2 );
     static const double dummy( sqrt(tCut - t0) );
@@ -607,9 +609,10 @@ double MINERvA_parametrization(const double qSq, const double bandWeight)
     const double zExp(   -0.502678 + z*(1.50 + z*(-1.2 + z*(-0.149228 + z*(0.157978 + z*(0.510344 + z*(-0.411635 + z*(0.127889 - z*0.0326702)))))))   );
 
     if( not bandWeight )
-    {
+    {//cout<<bandWeight<<"  dupa2"<<endl;
         return zExp;
     }
+    //cout<<bandWeight<<"  dupa3"<<endl;
     static bool firstTime( true );
 
     static const int parametrizationOrder(8 + 1);
@@ -682,6 +685,7 @@ double MINERvA_parametrization(const double qSq, const double bandWeight)
 
     const double uncSq(   coefficients[0] + z*( coefficients[1] + z*( coefficients[2] + z*( coefficients[3] + z*( coefficients[4] + z*( coefficients[5] + z*( coefficients[6] + z*( coefficients[7] + z*( coefficients[8] + z*( coefficients[9] + z*( coefficients[10] + z*( coefficients[11] + z*( coefficients[12] + z*( coefficients[13] + z*( coefficients[14] + z*( coefficients[15] + z*coefficients[16] ) ) ) ) ) ) ) ) ) ) ) ) ) ) )   );
     
+    //cout<<"dupa  "<<qSq<<"  "<<zExp<<"  "<<sqrt( uncSq )<<endl;//added by JS
     return zExp - bandWeight * (sqrt( uncSq ));
 }
 
@@ -689,6 +693,7 @@ double MINERvA_parametrization(const double qSq, const double bandWeight)
 double MINERvA_FA(const double qSq, const double ma)
 {
     double weight = mva_errorBar;
+    //cout<<"error = "<<weight<<endl;
     return MINERvA_parametrization( qSq, weight );
 }
 
@@ -696,6 +701,9 @@ double MINERvA_FA(const double qSq, const double ma)
 /// Standard Dipole
 double dipole_FA(double q2, double ma)
 {
+    //cout<<ma<<endl;
+    //cout<<"axial mass ="<<rew.qel_cc_axial_mass.val<<endl;
+    //cout<<"sigma ="<<rew.qel_minerva_ff_sigma.val<<endl;
   return gA / pow2(1 - q2 / ma / ma);
 }
 
@@ -824,6 +832,7 @@ pair<double, double> fap(double q2, int kind)
   switch (kind)
   {
     case 0:  // cc
+          //cout<<"dupella"<<endl;
       Fa = Axialfromq2(q2, rew.qel_cc_axial_mass.val); //Fa = Axialfromq2(q2, MA_cc);
       Fa *= axialcorr(axialFFset, q2);
       Fp = 2 * Mass2 * Fa / (piMass2 - q2);
@@ -1058,11 +1067,11 @@ void ff_configure(params & p)
     //    sleep(5);
     break;
   case 8:
-          mva_errorBar = rew.qel_minerva_ff_scale.val;//jancheck
+          mva_errorBar = 1;//rew.qel_minerva_ff_scale.val;//jancheck
     Axialfromq2 = MINERvA_FA;
     break;
     case 9:
-          deut_errorBar = rew.qel_deuterium_ff_scale.val;//jancheck
+          deut_errorBar = 1;//rew.qel_deuterium_ff_scale.val;//jancheck
     Axialfromq2 = deuterium_FA;
     //deutFA_errorBar = rew.deutFA_errorBar.val;
     break;

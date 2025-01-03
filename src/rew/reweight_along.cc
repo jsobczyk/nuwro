@@ -18,6 +18,7 @@ static string name(RewParam &a, double k1, RewParam&b, double k2)
 
 int main(int argc, char *argv[])
 {
+    cout<<"tutaj"<<endl;//JS
 	if(argc<4)
 	{
 		cerr<<"[INFO] Usage: " 
@@ -50,13 +51,14 @@ int main(int argc, char *argv[])
 		RewParam& p=rew(argv[i]);
 		if(p.name=="")
 		{	
-
+            cout<<"dupa"<<i<<"  "<<argv[i]<<endl;//JS
 			cerr <<"[Error] parameter \""<<argv[i]<<"\" can not be reweighted. Try one of:\n";
 			rew.list(cerr);
 			exit(1);
 		}
 		else 
-		{  
+		{
+            cout<<"dobrze"<<i<<"  "<<argv[i]<<endl;//JS
            args.push_back(&p);
            REW(p.engine).active=true;
            nargs++;
